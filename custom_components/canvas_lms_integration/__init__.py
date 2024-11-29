@@ -35,7 +35,7 @@ async def async_setup_entry(
     client = CanvasLmsApiClient(
         canvas_base_url=entry.data[CONF_CANVAS_URL],
         apiKey=entry.data[CONF_ACCESS_TOKEN],
-        session=async_get_clientsession(hass)
+        session=async_get_clientsession(hass),
     )
     coordinator = CanvasLmsDataUpdateCoordinator(
         hass=hass,

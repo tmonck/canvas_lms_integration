@@ -22,6 +22,7 @@ if TYPE_CHECKING:
 
     from .data import CanvasLmsConfigEntry
 
+
 # https://developers.home-assistant.io/docs/integration_fetching_data#coordinated-single-api-poll-for-data-for-all-entities
 class CanvasLmsDataUpdateCoordinator(DataUpdateCoordinator):
     """Class to manage fetching data from the API."""
@@ -29,9 +30,9 @@ class CanvasLmsDataUpdateCoordinator(DataUpdateCoordinator):
     config_entry: CanvasLmsConfigEntry
 
     def __init__(
-            self,
-            hass: HomeAssistant,
-            client: CanvasLmsApiClient,
+        self,
+        hass: HomeAssistant,
+        client: CanvasLmsApiClient,
     ) -> None:
         """Initialize."""
         super().__init__(
@@ -56,9 +57,9 @@ class CanvasLmsDataUpdateCoordinator(DataUpdateCoordinator):
                 continue
 
             try:
-                data[
+                data[entity.entity_description.key] = await self.api.async_update(
                     entity.entity_description.key
-                ] = await self.api.async_update(entity.entity_description.key)
+                )
             except CanvasLmsApiClientAuthenticationError as exception:
                 raise ConfigEntryAuthFailed(exception) from exception
             except CanvasLmsApiClientError as exception:

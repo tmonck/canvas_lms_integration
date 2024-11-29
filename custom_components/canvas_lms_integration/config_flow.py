@@ -62,7 +62,7 @@ class CanvasLmsFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 await self._retrieve_available_observees()
                 self.data = {
                     CONF_CANVAS_URL: user_input[CONF_CANVAS_URL],
-                    CONF_ACCESS_TOKEN: user_input[CONF_ACCESS_TOKEN]
+                    CONF_ACCESS_TOKEN: user_input[CONF_ACCESS_TOKEN],
                 }
                 return await self.async_step_observees()
 
@@ -110,8 +110,7 @@ class CanvasLmsFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             # The value that is selected is already the id
             self.data[CONF_OBSERVEE] = observee
             return self.async_create_entry(
-                title=observees[int(observee)]["name"],
-                data=self.data
+                title=observees[int(observee)]["name"], data=self.data
             )
 
         return self.async_show_form(
@@ -133,9 +132,11 @@ class CanvasLmsFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             _observees = await self._canvas.async_get_observees("self")
             for observee in _observees:
                 observees[observee["id"]] = observee
-                usernames.append({
-                    "value": str(observee["id"]),
-                    "label": observee["name"],
-                })
+                usernames.append(
+                    {
+                        "value": str(observee["id"]),
+                        "label": observee["name"],
+                    }
+                )
         except InvalidAccessToken:
             raise ValueError from InvalidAccessToken

@@ -51,13 +51,15 @@ class CanvasLmsApiClient:
         self._apiKey = api_key
         self._session = session
 
-    async def async_get_user(self, user_id:str) -> Any:
+    async def async_get_user(self, user_id: str) -> Any:
         """Get the specified user."""
         return await self._api_wrapper(
             method="get",
             path=f"v1/users/{user_id}",
-            headers={"Content-type": "application/json; charset=UTF-8",
-                     "Authorization": f"Bearer {self._apiKey}"},
+            headers={
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": f"Bearer {self._apiKey}",
+            },
         )
 
     async def async_get_observees(self, user_id: str) -> Any:
@@ -65,8 +67,10 @@ class CanvasLmsApiClient:
         return await self._api_wrapper(
             method="get",
             path=f"v1/users/{user_id}/observees",
-            headers={"Content-type": "application/json; charset=UTF-8",
-                     "Authorization": f"Bearer {self._apiKey}"},
+            headers={
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": f"Bearer {self._apiKey}",
+            },
         )
 
     async def async_get_missing_assignments(self, user_id: str) -> Any:
@@ -74,8 +78,10 @@ class CanvasLmsApiClient:
         assignments = await self._api_wrapper(
             method="get",
             path=f"v1/users/{user_id}/missing_submissions?include[]=course&filter[]=submittable",
-            headers={"Content-type": "application/json; charset=UTF-8",
-                     "Authorization": f"Bearer {self._apiKey}"},
+            headers={
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": f"Bearer {self._apiKey}",
+            },
         )
 
         results = []
@@ -98,8 +104,10 @@ class CanvasLmsApiClient:
         courses = await self._api_wrapper(
             method="get",
             path=f"v1/users/{user_id}/courses?include[]=teachers&include[]=term&include[]=syllabus_body&enrollment_state=active",
-            headers={"Content-type": "application/json; charset=UTF-8",
-                     "Authorization": f"Bearer {self._apiKey}"},
+            headers={
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": f"Bearer {self._apiKey}",
+            },
         )
 
         results = []

@@ -34,19 +34,13 @@ ENTITY_DESCRIPTIONS = (
         key=MissingAssignments,
         name="Canvas LMS Missing Assignments",
         icon="mdi:format-quote-close",
-        attributes_fn=lambda data: {
-            "assignments": data,
-            "count": len(data)
-        }
+        attributes_fn=lambda data: {"assignments": data, "count": len(data)},
     ),
     CanvasLmsEntityDescription(
         key=Courses,
         name="Canvas LMS Courses",
         icon="mdi:format-quote-close",
-        attributes_fn=lambda data: {
-            "courses": data,
-            "count": len(data)
-        }
+        attributes_fn=lambda data: {"courses": data, "count": len(data)},
     ),
 )
 
@@ -75,5 +69,6 @@ class CanvasLmsSensor(CanvasLmsEntity, SensorEntity):
         """Return the native value of the sensor."""
         entity_data = self.coordinator.data.get(self.entity_description.key, None)
         LOGGER.debug(
-            f"retrieved entity_data {entity_data} for {self.entity_description}")
+            f"retrieved entity_data {entity_data} for {self.entity_description}"
+        )
         return len(entity_data) if entity_data else 0

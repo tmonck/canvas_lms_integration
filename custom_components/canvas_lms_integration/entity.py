@@ -18,16 +18,18 @@ if TYPE_CHECKING:
 
     from .data import CanvasLmsConfigEntry, CanvasLmsEntityDescription
 
+
 class CanvasLmsEntity(CoordinatorEntity[CanvasLmsDataUpdateCoordinator]):
     """CanvasLmsEntity class."""
 
     _attr_attribution = ATTRIBUTION
 
     def __init__(
-            self,
-            coordinator: CanvasLmsDataUpdateCoordinator,
-            description: CanvasLmsEntityDescription,
-            config_entry: CanvasLmsConfigEntry) -> None:
+        self,
+        coordinator: CanvasLmsDataUpdateCoordinator,
+        description: CanvasLmsEntityDescription,
+        config_entry: CanvasLmsConfigEntry,
+    ) -> None:
         """Initialize."""
         super().__init__(coordinator)
         self._attr_name = f"{config_entry.title} {description.name}"
