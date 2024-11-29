@@ -7,9 +7,6 @@
 ![Project Maintenance][maintenance-shield]
 [![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
 
-[![Discord][discord-shield]][discord]
-[![Community Forum][forum-shield]][forum]
-
 _Integration to integrate with [canvas_lms_integration][canvas_lms_integration]._
 
 **This integration will set up the following platforms.**
@@ -43,11 +40,6 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 [buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=for-the-badge
 [commits-shield]: https://img.shields.io/github/commit-activity/y/tmonck/canvas_lms_integration.svg?style=for-the-badge
 [commits]: https://github.com/tmonck/canvas_lms_integration/commits/main
-[discord]: https://discord.gg/Qa5fW2R
-[discord-shield]: https://img.shields.io/discord/330944238910963714.svg?style=for-the-badge
-[exampleimg]: example.png
-[forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge
-[forum]: https://community.home-assistant.io/
 [license-shield]: https://img.shields.io/github/license/tmonck/canvas_lms_integration.svg?style=for-the-badge
 [maintenance-shield]: https://img.shields.io/badge/maintainer-Tom%20Monck%20%40tmonck-blue.svg?style=for-the-badge
 [releases-shield]: https://img.shields.io/github/release/tmonck/canvas_lms_integration.svg?style=for-the-badge
