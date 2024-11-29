@@ -1,0 +1,13 @@
+{
+  "domain": "canvas_lms",
+  "name": "Canvas LMS",
+  "codeowners": [
+    "@tmonck"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/ludeeus/integration_blueprint",
+  "requirements": ["canvasapi==3.3.0"],
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/tmonck/canvas_lms_integration/issues",
+  "version": "0.0.0"
+}
