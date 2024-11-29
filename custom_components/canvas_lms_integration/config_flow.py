@@ -3,9 +3,8 @@
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
-import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 from canvasapi.exceptions import InvalidAccessToken
 from homeassistant import config_entries, data_entry_flow
@@ -23,7 +22,6 @@ from .const import (
     CONF_CANVAS_URL,
     # CONF_COURSES,
     CONF_OBSERVEE,
-    CONF_OBSERVEES,
     DOMAIN,
     LOGGER,
 )
@@ -61,10 +59,7 @@ class CanvasLmsFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 LOGGER.exception(exception)
                 _errors["base"] = "unknown"
             else:
-                await self._retrieve_available_observees(
-                    canvas_url=user_input[CONF_CANVAS_URL],
-                    token=user_input[CONF_ACCESS_TOKEN],
-                )
+                await self._retrieve_available_observees()
                 self.data = {
                     CONF_CANVAS_URL: user_input[CONF_CANVAS_URL],
                     CONF_ACCESS_TOKEN: user_input[CONF_ACCESS_TOKEN]
@@ -94,7 +89,7 @@ class CanvasLmsFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
     async def async_step_observees(
-        self, user_input: Dict[str, Any] | Any = None
+        self, user_input: dict[str, Any] | Any = None
     ) -> data_entry_flow.FlowResult:
         """Something."""
         observee_schema = vol.Schema(
@@ -112,7 +107,8 @@ class CanvasLmsFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
         if user_input is not None:
             observee = user_input.get(CONF_OBSERVEE)
-            self.data[CONF_OBSERVEE] = observee # The value that is selected is already the id
+            # The value that is selected is already the id
+            self.data[CONF_OBSERVEE] = observee
             return self.async_create_entry(
                 title=observees[int(observee)]["name"],
                 data=self.data
@@ -126,17 +122,20 @@ class CanvasLmsFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         """Validate credentials."""
         client = CanvasLmsApiClient(
             canvas_base_url=canvas_url,
-            apiKey=password,
+            api_key=password,
             session=async_create_clientsession(self.hass),
         )
         self._canvas = client
         await client.async_get_user("self")
 
-    async def _retrieve_available_observees(self, canvas_url: str, token: str) -> None:
+    async def _retrieve_available_observees(self) -> None:
         try:
             _observees = await self._canvas.async_get_observees("self")
             for observee in _observees:
                 observees[observee["id"]] = observee
-                usernames.append({"value": str(observee["id"]), "label": observee["name"]})
+                usernames.append({
+                    "value": str(observee["id"]),
+                    "label": observee["name"],
+                })
         except InvalidAccessToken:
             raise ValueError from InvalidAccessToken

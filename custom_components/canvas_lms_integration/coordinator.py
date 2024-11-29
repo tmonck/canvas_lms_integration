@@ -3,10 +3,9 @@
 from __future__ import annotations
 
 from datetime import timedelta
-from typing import TYPE_CHECKING, Any, List
+from typing import TYPE_CHECKING, Any
 
 from homeassistant.exceptions import ConfigEntryAuthFailed
-from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .api import (
@@ -14,11 +13,12 @@ from .api import (
     CanvasLmsApiClientAuthenticationError,
     CanvasLmsApiClientError,
 )
-from .const import DOMAIN, LOGGER, CONF_OBSERVEE
+from .const import CONF_OBSERVEE, DOMAIN, LOGGER
 from .data import CanvasLmsData
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
+    from homeassistant.helpers.entity import Entity
 
     from .data import CanvasLmsConfigEntry
 
@@ -42,10 +42,10 @@ class CanvasLmsDataUpdateCoordinator(DataUpdateCoordinator):
         )
 
         observee_id = self.config_entry.data[CONF_OBSERVEE]
-        LOGGER.info("registering {}".format(observee_id))
+        LOGGER.info(f"registering {observee_id}")
         self.api = CanvasLmsData(hass, client, observee_id)
-        self.available_entities: List[str] = []
-        self.entities: List[Entity] = []
+        self.available_entities: list[str] = []
+        self.entities: list[Entity] = []
 
     async def _async_update_data(self) -> Any:
         """Update data via library."""
@@ -56,7 +56,9 @@ class CanvasLmsDataUpdateCoordinator(DataUpdateCoordinator):
                 continue
 
             try:
-                data[entity.entity_description.key] = await self.api.async_update(entity.entity_description.key)
+                data[
+                    entity.entity_description.key
+                ] = await self.api.async_update(entity.entity_description.key)
             except CanvasLmsApiClientAuthenticationError as exception:
                 raise ConfigEntryAuthFailed(exception) from exception
             except CanvasLmsApiClientError as exception:

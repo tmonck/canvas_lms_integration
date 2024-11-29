@@ -43,33 +43,39 @@ class CanvasLmsApiClient:
     def __init__(
         self,
         canvas_base_url: str,
-        apiKey: str,
+        api_key: str,
         session: aiohttp.ClientSession,
     ) -> None:
         """Sample API Client."""
         self._canvas_base_url = canvas_base_url
-        self._apiKey = apiKey
+        self._apiKey = api_key
         self._session = session
 
-    async def async_get_user(self, user_id) -> Any:
+    async def async_get_user(self, user_id:str) -> Any:
+        """Get the specified user."""
         return await self._api_wrapper(
             method="get",
-            path="v1/users/{}".format(user_id),
-            headers={"Content-type": "application/json; charset=UTF-8", "Authorization": "Bearer {}".format(self._apiKey)},
+            path=f"v1/users/{user_id}",
+            headers={"Content-type": "application/json; charset=UTF-8",
+                     "Authorization": f"Bearer {self._apiKey}"},
         )
 
-    async def async_get_observees(self, user_id) -> Any:
+    async def async_get_observees(self, user_id: str) -> Any:
+        """Get the observees for the specified user."""
         return await self._api_wrapper(
             method="get",
-            path="v1/users/{}/observees".format(user_id),
-            headers={"Content-type": "application/json; charset=UTF-8", "Authorization": "Bearer {}".format(self._apiKey)},
+            path=f"v1/users/{user_id}/observees",
+            headers={"Content-type": "application/json; charset=UTF-8",
+                     "Authorization": f"Bearer {self._apiKey}"},
         )
 
-    async def async_get_missing_assignments(self, user_id) -> Any:
+    async def async_get_missing_assignments(self, user_id: str) -> Any:
+        """Get the missing assignments for specified user."""
         assignments = await self._api_wrapper(
             method="get",
-            path="v1/users/{}/missing_submissions?include[]=course&filter[]=submittable".format(user_id),
-            headers={"Content-type": "application/json; charset=UTF-8", "Authorization": "Bearer {}".format(self._apiKey)},
+            path=f"v1/users/{user_id}/missing_submissions?include[]=course&filter[]=submittable",
+            headers={"Content-type": "application/json; charset=UTF-8",
+                     "Authorization": f"Bearer {self._apiKey}"},
         )
 
         results = []
@@ -87,11 +93,13 @@ class CanvasLmsApiClient:
 
         return results
 
-    async def async_get_courses(self, user_id) -> Any:
+    async def async_get_courses(self, user_id: str) -> Any:
+        """Get courses for specified user."""
         courses = await self._api_wrapper(
             method="get",
-            path="v1/users/{}/courses?include[]=teachers&include[]=term&include[]=syllabus_body&enrollment_state=active".format(user_id),
-            headers={"Content-type": "application/json; charset=UTF-8", "Authorization": "Bearer {}".format(self._apiKey)},
+            path=f"v1/users/{user_id}/courses?include[]=teachers&include[]=term&include[]=syllabus_body&enrollment_state=active",
+            headers={"Content-type": "application/json; charset=UTF-8",
+                     "Authorization": f"Bearer {self._apiKey}"},
         )
 
         results = []
@@ -107,7 +115,7 @@ class CanvasLmsApiClient:
             }
             results.append(result)
 
-        LOGGER.info("mapped courses to results {}".format(results))
+        LOGGER.info(f"mapped courses to results {results}")
         return results
 
     async def _api_wrapper(
@@ -122,7 +130,7 @@ class CanvasLmsApiClient:
             async with async_timeout.timeout(10):
                 response = await self._session.request(
                     method=method,
-                    url="{}{}".format(self._canvas_base_url, path),
+                    url=f"{self._canvas_base_url}{path}",
                     headers=headers,
                     json=data,
                 )
