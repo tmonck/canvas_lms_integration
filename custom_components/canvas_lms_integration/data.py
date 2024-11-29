@@ -26,8 +26,7 @@ class CanvasLmsData:
             self,
             hass: HomeAssistant,
             client: CanvasLmsApiClient,
-            observee_id: str
-    ):
+            observee_id: str) -> None:
         """Initialize Canvas LMS Data."""
         LOGGER.debug(f"CanvasLmsData init with {observee_id}")
         self.hass = hass
