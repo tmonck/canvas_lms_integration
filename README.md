@@ -5,7 +5,6 @@
 [![License][license-shield]](LICENSE)
 
 ![Project Maintenance][maintenance-shield]
-[![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
 
 _Integration to integrate with [canvas_lms_integration][canvas_lms_integration]._
 
